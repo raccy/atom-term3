@@ -106,10 +106,13 @@ config =
   shellArguments:
     type: 'string'
     default: do ({SHELL, HOME}=process.env) ->
-      switch path.basename SHELL.toLowerCase()
-        when 'bash' then "--init-file #{path.join HOME, '.bash_profile'}"
-        when 'zsh'  then "-l"
-        else ''
+      if SHELL
+        switch path.basename SHELL.toLowerCase()
+          when 'bash' then "--init-file #{path.join HOME, '.bash_profile'}"
+          when 'zsh'  then "-l"
+          else ''
+      else
+        ''
   openPanesInSameSplit:
     type: 'boolean'
     default: false
@@ -222,7 +225,7 @@ module.exports =
     if opts.shellOverride
         opts.shell = opts.shellOverride
     else
-        opts.shell = process.env.SHELL or 'bash'
+        opts.shell = process.env.SHELL or process.env.ComSpec or 'bash'
 
     # opts.shellArguments or= ''
     editorPath = keypather.get atom, 'workspace.getEditorViews[0].getEditor().getPath()'
