@@ -1,6 +1,6 @@
 # from atom/terminal to reduce cpu usage
 
-pty = require 'pty.js'
+pty = require 'ptyw.js'
 
 module.exports = (ptyCwd, sh, cols, rows, args) ->
   callback = @async()
@@ -9,7 +9,7 @@ module.exports = (ptyCwd, sh, cols, rows, args) ->
   else
       if process.platform is 'win32'
         path = require 'path'
-        shell = path.resolve(process.env.SystemRoot, 'WindowsPowerShell', 'v1.0', 'powershell.exe')
+        shell = path.resolve(process.env.SystemRoot, 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe')
       else
         shell = process.env.SHELL
 
